@@ -12,53 +12,88 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-color: #f4f4f4;
         }
-        h1 {
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            width: 100%;
             text-align: center;
-            margin-top: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
         canvas {
-            max-width: 80%;
+            max-width: 100%;
             margin: 20px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 10px;
+            }
+            h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Total de Mensajes 💩 por Emisor</h1>
-    <canvas id="myChart"></canvas>
+    <header>
+        <h1>Dashboard de Mensajes 💩</h1>
+    </header>
+    <div class="container">
+        <h2>Total de 💩 por Emisor</h2>
+        <canvas id="myChart"></canvas>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Datos para la gráfica
-        const data = {
-            labels: ['Estebi', 'Felipe González', 'Franco González', 'Joacoo Leguizamon', 'Agu Villar', 'Roy', '~ Maxi do Carmo', 'DanielMartinez~'],
-            datasets: [{
-                label: 'Total de 💩',
-                data: [22, 22, 16, 13, 11, 10, 10, 8],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        };
+        async function fetchData() {
+            const response = await fetch('https://9a5850b3-ca0d-4ea9-a062-62ed4633d303-00-96nk8ijlt57y.kirk.replit.dev/upload', {
+                method: 'POST',
+                body: new FormData(document.querySelector('form'))
+            });
+            const data = await response.json();
+            updateChart(data);
+        }
 
-        // Configuración de la gráfica
-        const config = {
-            type: 'bar',
-            data: data,
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+        function updateChart(data) {
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total de 💩',
+                        data: values,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
-        };
+            });
+        }
 
-        // Renderizar la gráfica
-        window.onload = function() {
-            const ctx = document.getElementById('myChart').getContext('2d');
-            new Chart(ctx, config);
-        };
+        window.onload = fetchData;
     </script>
 </body>
 </html>
