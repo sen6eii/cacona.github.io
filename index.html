@@ -57,10 +57,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         async function fetchData() {
-            const response = await fetch('https://9a5850b3-ca0d-4ea9-a062-62ed4633d303-00-96nk8ijlt57y.kirk.replit.dev/upload', {
-                method: 'POST',
-                body: new FormData(document.querySelector('form'))
-            });
+            const response = await fetch('https://9a5850b3-ca0d-4ea9-a062-62ed4633d303-00-96nk8ijlt57y.kirk.replit.dev/data');
             const data = await response.json();
             updateChart(data);
         }
