@@ -78,6 +78,10 @@
             } catch (error) {
                 console.error('Fetching from server failed, loading local data:', error);
                 const response = await fetch('data.json');
+                if (!response.ok) {
+                    console.error('Failed to load local data');
+                    return;
+                }
                 const data = await response.json();
                 updateCharts(data);
                 updateLastUpdated(data.lastUpdated);
