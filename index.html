@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caco Stats 💩</title>
+    <title>Dashboard de Mensajes 💩</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -47,19 +47,29 @@
 </head>
 <body>
     <header>
-        <h1>Caco Stats</h1>
+        <h1>Dashboard de Mensajes 💩</h1>
     </header>
     <div class="container">
-        <h2>Total de 💩 por emisor</h2>
+        <h2>Total de 💩 por Emisor</h2>
         <canvas id="myChart"></canvas>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         async function fetchData() {
-            const response = await fetch('https://9a5850b3-ca0d-4ea9-a062-62ed4633d303-00-96nk8ijlt57y.kirk.replit.dev/data');
-            const data = await response.json();
-            updateChart(data);
+            try {
+                const response = await fetch('https://9a5850b3-ca0d-4ea9-a062-62ed4633d303-00-96nk8ijlt57y.kirk.replit.dev/data');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                updateChart(data);
+            } catch (error) {
+                console.error('Fetching from server failed, loading local data:', error);
+                const response = await fetch('data.json');
+                const data = await response.json();
+                updateChart(data);
+            }
         }
 
         function updateChart(data) {
