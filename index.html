@@ -50,8 +50,12 @@
         <h1>Dashboard de Mensajes 💩</h1>
     </header>
     <div class="container">
-        <h2>Total de 💩 por Emisor</h2>
-        <canvas id="myChart"></canvas>
+        <h2>Total Histórico de 💩 por Emisor</h2>
+        <canvas id="historicalChart"></canvas>
+    </div>
+    <div class="container">
+        <h2>Total de 💩 por Emisor por Mes</h2>
+        <canvas id="monthlyChart"></canvas>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -63,20 +67,28 @@
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                updateChart(data);
+                updateCharts(data);
             } catch (error) {
                 console.error('Fetching from server failed, loading local data:', error);
                 const response = await fetch('data.json');
                 const data = await response.json();
-                updateChart(data);
+                updateCharts(data);
             }
         }
 
-        function updateChart(data) {
+        function updateCharts(data) {
+            const totalCounts = data.totalCounts;
+            const countsByMonth = data.countsByMonth;
+
+            updateHistoricalChart(totalCounts);
+            updateMonthlyChart(countsByMonth);
+        }
+
+        function updateHistoricalChart(data) {
             const labels = Object.keys(data);
             const values = Object.values(data);
 
-            const ctx = document.getElementById('myChart').getContext('2d');
+            const ctx = document.getElementById('historicalChart').getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -100,7 +112,37 @@
             });
         }
 
+        function updateMonthlyChart(data) {
+            const months = Object.keys(data).sort();
+            const users = [...new Set(Object.values(data).flatMap(Object.keys))];
+            const datasets = users.map(user => ({
+                label: user,
+                data: months.map(month => data[month][user] || 0),
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }));
+
+            const ctx = document.getElementById('monthlyChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
         window.onload = fetchData;
     </script>
 </body>
 </html>
+
