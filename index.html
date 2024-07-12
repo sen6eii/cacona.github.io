@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caco stats</title>
+    <title>Dashboard de Mensajes 💩</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,14 +52,14 @@
 </head>
 <body>
     <header>
-        <h1>Caco stats</h1>
+        <h1>Dashboard de Mensajes 💩</h1>
     </header>
     <div class="container">
-        <h2>Total Histórico</h2>
+        <h2>Total Histórico de 💩 por Emisor</h2>
         <canvas id="historicalChart"></canvas>
     </div>
     <div class="container">
-        <h2>Total de 💩 por Mes</h2>
+        <h2>Total de 💩 por Emisor por Mes</h2>
         <canvas id="monthlyChart"></canvas>
     </div>
     <div class="last-updated" id="lastUpdated">Última actualización: --</div>
@@ -77,7 +77,7 @@
                 updateLastUpdated(data.lastUpdated);
             } catch (error) {
                 console.error('Fetching from server failed, loading local data:', error);
-                const response = await fetch('./data.json');
+                const response = await fetch('./data.json'); // Cambiado a './data.json'
                 if (!response.ok) {
                     console.error('Failed to load local data');
                     return;
@@ -127,11 +127,24 @@
         function updateMonthlyChart(data) {
             const months = Object.keys(data).sort();
             const users = [...new Set(Object.values(data).flatMap(Object.keys))];
-            const datasets = users.map(user => ({
+            const colors = [
+                'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)',
+                'rgba(199, 199, 199, 0.2)', 'rgba(83, 102, 255, 0.2)'
+            ];
+            const borderColors = [
+                'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)',
+                'rgba(199, 199, 199, 1)', 'rgba(83, 102, 255, 1)'
+            ];
+
+            const datasets = users.map((user, index) => ({
                 label: user,
                 data: months.map(month => data[month][user] || 0),
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: colors[index % colors.length],
+                borderColor: borderColors[index % borderColors.length],
                 borderWidth: 1
             }));
 
@@ -145,7 +158,11 @@
                 options: {
                     responsive: true,
                     scales: {
+                        x: {
+                            stacked: true
+                        },
                         y: {
+                            stacked: true,
                             beginAtZero: true
                         }
                     }
