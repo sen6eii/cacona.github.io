@@ -39,6 +39,34 @@
             font-size: 14px;
             color: #555;
         }
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+        }
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .popup-content button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #948A49;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -53,7 +81,7 @@
 <body>
     <header>
         <h1>Caco Stats</h1>
-           <nav>
+        <nav>
             <a href="about.html">Sobre los pibes</a>
         </nav>
     </header>
@@ -67,6 +95,13 @@
         <canvas id="monthlyChart"></canvas>
     </div>
     <div class="last-updated" id="lastUpdated">Última actualización: --</div>
+
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <p>Novedades: A partir de agosto se empezará a contabilizar la utilización de 🌊 como un caco válido el cual representa alta diarrea.</p>
+            <button onclick="closePopup()">Aceptar</button>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -180,7 +215,22 @@
             lastUpdatedElement.textContent = `Última actualización: ${date.toLocaleString()}`;
         }
 
-        window.onload = fetchData;
+        function closePopup() {
+            document.getElementById('popup').style.visibility = 'hidden';
+            localStorage.setItem('popupDisplayed', 'true');
+        }
+
+        function checkPopup() {
+            if (!localStorage.getItem('popupDisplayed')) {
+                document.getElementById('popup').style.visibility = 'visible';
+            }
+        }
+
+        window.onload = () => {
+            fetchData();
+            checkPopup();
+        };
     </script>
 </body>
 </html>
+
