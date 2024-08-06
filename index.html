@@ -217,11 +217,11 @@
 
         function closePopup() {
             document.getElementById('popup').style.visibility = 'hidden';
-            localStorage.setItem('popupDisplayed', 'true');
+            localStorage.setItem('popupDisplayed2', 'true');
         }
 
         function checkPopup() {
-            if (!localStorage.getItem('popupDisplayed')) {
+            if (!localStorage.getItem('popupDisplayed2')) {
                 document.getElementById('popup').style.visibility = 'visible';
             }
         }
