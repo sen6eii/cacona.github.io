@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caco Stats</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,7 +20,29 @@
             color: white;
             padding: 10px;
             width: 100%;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 18px;
+        }
+        .icon {
+            color: white;
+            font-size: 20px;
+            margin-left: 15px;
+            cursor: pointer;
         }
         .container {
             max-width: 1200px;
@@ -83,6 +106,7 @@
         <h1>Caco Stats</h1>
         <nav>
             <a href="about.html">Sobre los pibes</a>
+            <a href="faqs.html"><i class="fas fa-question-circle icon"></i></a>
         </nav>
     </header>
     
@@ -91,7 +115,7 @@
         <canvas id="historicalChart"></canvas>
     </div>
     <div class="container">
-        <h2>Total de 💩 por mes</h2>
+        <h2>Total de 💩 y 🌊 por mes</h2>
         <canvas id="monthlyChart"></canvas>
     </div>
     <div class="last-updated" id="lastUpdated">Última actualización: --</div>
@@ -116,7 +140,7 @@
                 updateLastUpdated(data.lastUpdated);
             } catch (error) {
                 console.error('Fetching from server failed, loading local data:', error);
-                const response = await fetch('./data.json'); // Cambiado a './data.json'
+                const response = await fetch('./data.json');
                 if (!response.ok) {
                     console.error('Failed to load local data');
                     return;
@@ -145,7 +169,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Total de 💩',
+                        label: 'Total de 💩 y 🌊',
                         data: values,
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
