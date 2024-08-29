@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - Asociación de Cacos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #948A49;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .faq-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .faq-question {
+            cursor: pointer;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+            padding: 10px;
+            background-color: #e2e2e2;
+            border-radius: 5px;
+        }
+        .faq-answer {
+            display: none;
+            margin-top: 10px;
+            color: #555;
+            padding-left: 20px;
+        }
+        .faq-question:hover {
+            background-color: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Preguntas Frecuentes</h1>
+    </header>
+    <div class="container">
+        <div class="faq-item">
+            <h2 class="faq-question">¿Quién gestiona la Asociación Uruguaya de Cacos y la Federación Internacional?</h2>
+            <div class="faq-answer">
+                <p>Estos datos públicos y auditados se encuentran en el tesoro general de las naciones unidas, resguardado por Blater y Joe Biden.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <h2 class="faq-question">¿Cada cuánto se actualizan las gráficas?</h2>
+            <div class="faq-answer">
+                <p>Esto es particularmente importante y se dispone de un complejo mecanismo el cual consiste en realidad del siguiente concepto: Cuando le pinta al admin.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <h2 class="faq-question">¿Qué pasa si reporto cualquier cosa por Whatsapp?</h2>
+            <div class="faq-answer">
+                <p>Sos un gil pibe, sé honrado.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <h2 class="faq-question">Si hago un caco y lo reporto a destiempo, ¿qué debo hacer? ¿Es válido?</h2>
+            <div class="faq-answer">
+                <p>Debe hacer un descargo ante el cuerpo diligente mediante el siguiente formulario: <a href="https://sen6eii.github.io/cacona.github.io/form.html" target="_blank">Formulario de descargo</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript para manejar el comportamiento desplegable de las preguntas
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
+</body>
+</html>
